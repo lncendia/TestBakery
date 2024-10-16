@@ -1,0 +1,11 @@
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  &__title {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: var(--text-size-xl);
+  }
+}

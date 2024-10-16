@@ -1,0 +1,47 @@
+<div class="form-wrapper">
+
+    <p class="form-wrapper__title">
+      Добро пожаловать, войдите в свой аккаунт!
+    </p>
+
+  <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="form">
+    <div class="inputs-wrapper">
+      <mat-form-field appearance="outline">
+        <mat-label>Электронная почта</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          id="email"
+          type="text">
+        <mat-error *ngIf="email?.hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Пароль</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          id="password"
+          type="password">
+        <mat-error *ngIf="password?.hasError('required')">
+          Поле обязательно для заполнения
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-error *ngIf="(email || password)?.hasError('unauthorized')">
+      Неверный логин или пароль
+    </mat-error>
+
+    <div class="button-wrapper">
+      <button mat-flat-button type="submit" class="button-wrapper__button">
+        Войти
+      </button>
+      <a href="#" class="button-wrapper__password">Забыли пароль?</a>
+    </div>
+
+  </form>
+
+</div>
