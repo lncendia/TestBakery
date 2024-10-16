@@ -4,12 +4,15 @@ import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {CurrencyPipe, NgClass, NgIf} from '@angular/common';
+import {CurrencyPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
@@ -45,7 +48,8 @@ import {Bun} from '../../../services/models/client-models/bun';
     NgIf,
     ReactiveFormsModule,
     NgClass,
-    MatPaginator
+    MatPaginator,
+    DatePipe
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
@@ -64,12 +68,18 @@ export class MainPageComponent implements OnInit {
   bunsForm: FormGroup;
 
   /**
-   * Лимит.
+   * Страница.
    */
   page: number = 1;
 
+  /**
+   * Всего булочек.
+   */
   totalCount: number = 0
 
+  /**
+   * Лимит.
+   */
   limit: number = 5;
 
   /**
@@ -184,5 +194,36 @@ export class MainPageComponent implements OnInit {
    */
   public getBunNameInRussian(englishName: string): string {
     return this.bunNamesMap[englishName] || englishName;
+  }
+
+  /**
+   * Преобразует строку времени в формат "часы:минуты".
+   * Учитывает дни, если они присутствуют в строке времени.
+   *
+   * @param timeString - Строка времени, которая может содержать дни, часы, минуты и миллисекунды.
+   *                     Формат: "дни.часы:минуты:секунды.миллисекунды" или "часы:минуты:секунды.миллисекунды".
+   * @returns Строку в формате "часы:минуты".
+   */
+  convertTimeStringToTimeString(timeString: string): string {
+    let parts = timeString.split('.');
+    let days = 0;
+    let hours = 0;
+    let minutes = 0;
+    let time = 0;
+    parts.pop();
+    if(parts.length > 1){
+      days = Number(parts[0]);
+      parts = parts[1].split(':');
+      hours = Number(parts[0]);
+      minutes = Number(parts[1]);
+      time = days * 24 + hours;
+      return `${time}:${minutes}`;
+    }
+    else {
+      parts = parts[0].split(':');
+      hours = Number(parts[0]);
+      minutes = Number(parts[1]);
+      return `${hours}:${minutes}`;
+    }
   }
 }

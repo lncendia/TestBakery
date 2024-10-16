@@ -97,6 +97,8 @@ export class AuthPageComponent implements OnDestroy {
           this.router.navigate(['/main']);
         },
         error: () => {
+          this.loginForm.setErrors({ unauthorized: true });
+          this.email?.setErrors({ unauthorized: true });
           this.password?.setErrors({ unauthorized: true });
         }
       });
@@ -125,6 +127,16 @@ export class AuthPageComponent implements OnDestroy {
    */
   public get remember(): AbstractControl | null {
     return this.loginForm.get('remember');
+  }
+
+  /**
+   * Метод для обработки фокуса на поле формы.
+   * Убирает все ошибки валидации формы.
+   */
+  public resetFormErrors(): void {
+    Object.keys(this.loginForm.controls).forEach((controlName) => {
+      this.loginForm.get(controlName)?.setErrors(null);
+    });
   }
 
   /**

@@ -12,7 +12,8 @@
           matInput
           formControlName="email"
           id="email"
-          type="text">
+          type="text"
+          (focus)="resetFormErrors()">
         <mat-error *ngIf="email?.hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
@@ -24,14 +25,15 @@
           matInput
           formControlName="password"
           id="password"
-          type="password">
+          type="password"
+          (focus)="resetFormErrors()">
         <mat-error *ngIf="password?.hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
       </mat-form-field>
     </div>
 
-    <mat-error *ngIf="(email || password)?.hasError('unauthorized')">
+    <mat-error class="form__error" *ngIf="(loginForm.hasError('unauthorized'))">
       Неверный логин или пароль
     </mat-error>
 

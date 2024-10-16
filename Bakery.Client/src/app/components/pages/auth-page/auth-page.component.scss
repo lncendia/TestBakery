@@ -23,6 +23,10 @@
   justify-content: center;
   gap: 16px;
   width: 380px;
+
+  &__error {
+    text-align: center;
+  }
 }
 
 .inputs-wrapper {
