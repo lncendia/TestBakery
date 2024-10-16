@@ -60,27 +60,32 @@ export class MainPageComponent implements OnInit {
   /**
    * Объект, содержащий данные о булочках и их общее количество.
    */
-  buns?: Bun[]
+  public buns?: Bun[]
 
   /**
    * Форма для ввода данных о булочках.
    */
-  bunsForm: FormGroup;
+  public bunsForm: FormGroup;
 
   /**
    * Страница.
    */
-  page: number = 1;
+  public page: number = 1;
 
   /**
    * Всего булочек.
    */
-  totalCount: number = 0
+  public totalCount: number = 0
 
   /**
    * Лимит.
    */
-  limit: number = 5;
+  public limit: number = 5;
+
+  /**
+   * Интервал.
+   */
+  private updateInterval?: ReturnType<typeof setInterval>;
 
   /**
    * Переменная для маппинга названий булочек.
@@ -107,6 +112,16 @@ export class MainPageComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.getBuns()
+    this.startAutoUpdate();
+  }
+
+  /**
+   * Обновляет информацию о булочках.
+   */
+  private startAutoUpdate(): void {
+    this.updateInterval = setInterval(() => {
+      this.getBuns();
+    }, 1000);
   }
 
   /**
