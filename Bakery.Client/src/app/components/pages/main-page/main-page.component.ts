@@ -26,6 +26,8 @@ import {Bun} from '../../../services/models/client-models/bun';
 import {Subject} from 'rxjs';
 import {AuthStateService} from '../../../services/auth-state/auth-state.service';
 import {Router} from '@angular/router';
+import {TimeFormatPipe} from '../../../pipes/time-format-pipe.pipe';
+import {BunNamePipe} from '../../../pipes/bun-name.pipe';
 
 @Component({
   selector: 'app-main-page',
@@ -52,7 +54,9 @@ import {Router} from '@angular/router';
     ReactiveFormsModule,
     NgClass,
     MatPaginator,
-    DatePipe
+    DatePipe,
+    TimeFormatPipe,
+    BunNamePipe
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
@@ -89,17 +93,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
    * Имя пользователя.
    */
   public currentUserUsername: string | null | undefined;
-
-  /**
-   * Переменная для маппинга названий булочек.
-   */
-  private bunNamesMap: { [key: string]: string } = {
-    'Baguette': 'Багет',
-    'Croissant': 'Круассан',
-    'Loaf': 'Батон',
-    'Pretzel': 'Крендель',
-    'Smetannik': 'Сметанник',
-  };
 
   /**
    * Subject для управления подписками и их отмены при уничтожении компонента.
@@ -203,62 +196,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Метод для получения названия булочки на русском языке по её английскому названию.
-   * Если перевод не найден, возвращает оригинальное название.
-   * @param {string} englishName - Название булочки на английском языке.
-   * @returns {string} Название булочки на русском языке.
-   */
-  public getBunNameInRussian(englishName: string): string {
-    return this.bunNamesMap[englishName] || englishName;
-  }
-
-  /**
-   * Преобразует строку времени в формат "часы:минуты" и форматирует его в виде "X часов Y минут".
-   * Учитывает дни, если они присутствуют в строке времени.
-   * @param timeString - Строка времени
-   * @returns Отформатированное время в виде 'X часов Y минут' или 'Y минут', если часов нет.
-   */
-  public parseAndFormatTime(timeString: string): string {
-    let parts = timeString.split('.');
-    let days = 0;
-    let hours = 0;
-    let minutes = 0;
-    parts.pop();
-
-    /**
-     * Парсим строку времени
-     */
-    if (parts.length > 1) {
-      days = Number(parts[0]);
-      parts = parts[1].split(':');
-      hours = Number(parts[0]);
-      minutes = Number(parts[1]);
-    } else {
-      parts = parts[0].split(':');
-      hours = Number(parts[0]);
-      minutes = Number(parts[1]);
-    }
-    const totalHours = days * 24 + hours;
-
-    /**
-     * Форматируем часы
-     */
-    const hoursText = totalHours > 0 ? (totalHours === 1 ? `${totalHours} час` :
-      totalHours > 1 && totalHours < 5 ? `${totalHours} часа` : `${totalHours} часов`) : '';
-
-    /**
-     * Форматируем минуты
-     */
-    const minutesText = minutes > 0 ?
-      (minutes === 1 ? `${minutes} минута` :
-        minutes === 21 ? `${minutes} минута` :
-          minutes > 1 && minutes < 5 ? `${minutes} минуты` :
-            (minutes % 10 === 2 || minutes % 10 === 3 || minutes % 10 === 4) ? `${minutes} минуты` :
-              `${minutes} минут`) : '';
-
-    return `${hoursText}${hoursText && minutesText ? ' ' : ''}${minutesText}`.trim();
-  }
   /**
    * Метод выполняющий выход пользователя
    */

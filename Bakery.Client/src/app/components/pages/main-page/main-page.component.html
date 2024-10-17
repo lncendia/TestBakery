@@ -4,7 +4,6 @@
     <h2 class="control-form__title">Добро пожаловать, {{ currentUserUsername || 'Гость' }}</h2>
 
     <div class="input-wrapper">
-      <p class="control-form__hint">Введите количество булочек</p>
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Количество булочек</mat-label>
         <input
@@ -32,7 +31,7 @@
       <table mat-table [dataSource]="buns ?? []" class="mat-elevation-z8 table">
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef class="table__header">Тип</th>
-          <td mat-cell *matCellDef="let bun" class="table__cell">{{ getBunNameInRussian(bun.type) }}</td>
+          <td mat-cell *matCellDef="let bun" class="table__cell">{{ bun.type | bunName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="initialCost">
@@ -57,7 +56,7 @@
         <ng-container matColumnDef="predictedTime">
           <th mat-header-cell *matHeaderCellDef class="table__header">Время до изменения цены</th>
           <td mat-cell *matCellDef="let bun" class="table__cell">
-            {{ bun.predictedCost !== null ? (parseAndFormatTime(bun.predictedCost.date)) : '-' }}
+            {{ bun.predictedCost !== null ? (bun.predictedCost.date | timeFormatPipe) : '-' }}
           </td>
         </ng-container>
 

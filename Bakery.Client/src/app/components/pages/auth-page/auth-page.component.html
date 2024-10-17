@@ -7,7 +7,6 @@
   <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="form">
 
     <div class="inputs-wrapper">
-      <p class="inputs-wrapper__hint">Введите вашу электронную почту</p>
       <mat-form-field appearance="outline">
         <mat-label>Электронная почта</mat-label>
         <input
@@ -21,7 +20,6 @@
         </mat-error>
       </mat-form-field>
 
-      <p class="inputs-wrapper__hint">Введите ваш пароль</p>
       <mat-form-field appearance="outline">
         <mat-label>Пароль</mat-label>
         <input
@@ -45,6 +43,12 @@
         Войти
       </button>
       <a href="#" class="button-wrapper__password">Забыли пароль?</a>
+    </div>
+
+    <div class="login-suggestion">
+      <p class="login-suggestion__title">Данные для входа нашего лучшего пекаря:</p>
+      <p>Email: <span class="login-suggestion_text">coolbaker23&#64;gmail.com</span></p>
+      <p>Пароль: <span class="login-suggestion_text">BaKe_R23</span></p>
     </div>
 
   </form>

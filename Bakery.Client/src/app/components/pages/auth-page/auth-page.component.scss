@@ -56,3 +56,15 @@
   }
 }
 
+.login-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__title {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: var(--text-size-s);
+  }
+}
+
