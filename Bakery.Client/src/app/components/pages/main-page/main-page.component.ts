@@ -91,11 +91,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   public currentUserUsername: string | null | undefined;
 
   /**
-   * Интервал.
-   */
-  private updateInterval?: ReturnType<typeof setInterval>;
-
-  /**
    * Переменная для маппинга названий булочек.
    */
   private bunNamesMap: { [key: string]: string } = {
@@ -129,16 +124,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.currentUserUsername = this.authState.getUsernameFromToken();
     this.getBuns()
-    this.startAutoUpdate();
-  }
-
-  /**
-   * Обновляет информацию о булочках.
-   */
-  private startAutoUpdate(): void {
-    this.updateInterval = setInterval(() => {
-      this.getBuns();
-    }, 1000);
   }
 
   /**
