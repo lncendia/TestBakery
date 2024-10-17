@@ -214,36 +214,51 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Преобразует строку времени в формат "часы:минуты".
+   * Преобразует строку времени в формат "часы:минуты" и форматирует его в виде "X часов Y минут".
    * Учитывает дни, если они присутствуют в строке времени.
-   *
-   * @param timeString - Строка времени, которая может содержать дни, часы, минуты и миллисекунды.
-   *                     Формат: "дни.часы:минуты:секунды.миллисекунды" или "часы:минуты:секунды.миллисекунды".
-   * @returns Строку в формате "часы:минуты".
+   * @param timeString - Строка времени
+   * @returns Отформатированное время в виде 'X часов Y минут' или 'Y минут', если часов нет.
    */
-  public parseTime(timeString: string): string {
+  public parseAndFormatTime(timeString: string): string {
     let parts = timeString.split('.');
     let days = 0;
     let hours = 0;
     let minutes = 0;
-    let time = 0;
     parts.pop();
-    if(parts.length > 1){
+
+    /**
+     * Парсим строку времени
+     */
+    if (parts.length > 1) {
       days = Number(parts[0]);
       parts = parts[1].split(':');
       hours = Number(parts[0]);
       minutes = Number(parts[1]);
-      time = days * 24 + hours;
-      return `${time}:${minutes}`;
-    }
-    else {
+    } else {
       parts = parts[0].split(':');
       hours = Number(parts[0]);
       minutes = Number(parts[1]);
-      return `${hours}:${minutes}`;
     }
-  }
+    const totalHours = days * 24 + hours;
 
+    /**
+     * Форматируем часы
+     */
+    const hoursText = totalHours > 0 ? (totalHours === 1 ? `${totalHours} час` :
+      totalHours > 1 && totalHours < 5 ? `${totalHours} часа` : `${totalHours} часов`) : '';
+
+    /**
+     * Форматируем минуты
+     */
+    const minutesText = minutes > 0 ?
+      (minutes === 1 ? `${minutes} минута` :
+        minutes === 21 ? `${minutes} минута` :
+          minutes > 1 && minutes < 5 ? `${minutes} минуты` :
+            (minutes % 10 === 2 || minutes % 10 === 3 || minutes % 10 === 4) ? `${minutes} минуты` :
+              `${minutes} минут`) : '';
+
+    return `${hoursText}${hoursText && minutesText ? ' ' : ''}${minutesText}`.trim();
+  }
   /**
    * Метод выполняющий выход пользователя
    */
