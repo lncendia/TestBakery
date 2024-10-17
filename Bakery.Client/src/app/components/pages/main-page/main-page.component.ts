@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Buns} from '../../../services/models/client-models/buns';
 import {
   MatCell,
@@ -23,6 +23,9 @@ import {StartBakingInputModel} from '../../../services/models/input-models/start
 import {GetBunsInputModel} from '../../../services/models/input-models/get-buns-input-model';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Bun} from '../../../services/models/client-models/bun';
+import {Subject} from 'rxjs';
+import {AuthStateService} from '../../../services/auth-state/auth-state.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -55,7 +58,7 @@ import {Bun} from '../../../services/models/client-models/bun';
   styleUrl: './main-page.component.scss'
 })
 
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
 
   /**
    * Объект, содержащий данные о булочках и их общее количество.
@@ -83,6 +86,11 @@ export class MainPageComponent implements OnInit {
   public limit: number = 5;
 
   /**
+   * Имя пользователя.
+   */
+  public currentUserUsername: string | null | undefined;
+
+  /**
    * Интервал.
    */
   private updateInterval?: ReturnType<typeof setInterval>;
@@ -99,9 +107,17 @@ export class MainPageComponent implements OnInit {
   };
 
   /**
+   * Subject для управления подписками и их отмены при уничтожении компонента.
+   */
+  private unsubscribe$ = new Subject<void>();
+
+  /**
    * Конструктор компонента. Инициализирует аккаунт и форму.
    */
-  constructor(private bunService: BunService) {
+  constructor(
+    private bunService: BunService,
+    private authState: AuthStateService,
+    private router: Router,) {
     this.bunsForm = this.initBunsForm();
   }
 
@@ -111,6 +127,7 @@ export class MainPageComponent implements OnInit {
    * и сохраняет полученные данные в локальной переменной.
    */
   public ngOnInit(): void {
+    this.currentUserUsername = this.authState.getUsernameFromToken();
     this.getBuns()
     this.startAutoUpdate();
   }
@@ -240,5 +257,22 @@ export class MainPageComponent implements OnInit {
       minutes = Number(parts[1]);
       return `${hours}:${minutes}`;
     }
+  }
+
+  /**
+   * Метод выполняющий выход пользователя
+   */
+  public logout(): void {
+    this.authState.logout();
+    this.router.navigate(['/auth']);
+  }
+
+  /**
+   * Метод, вызываемый при уничтожении компонента для очистки ресурсов.
+   * Завершает все активные подписки для предотвращения утечек памяти.
+   */
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

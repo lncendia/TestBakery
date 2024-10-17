@@ -30,6 +30,21 @@
   }
 }
 
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.logout-button {
+  &__button {
+    font-weight: 700;
+    font-size: var(--text-size-s);
+    font-family: var(--font-family), sans-serif;;
+  }
+}
+
 .table-container {
   display: flex;
   flex-direction: column;

@@ -5,7 +5,9 @@
     </p>
 
   <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="form">
+
     <div class="inputs-wrapper">
+      <p class="inputs-wrapper__hint">Введите вашу электронную почту</p>
       <mat-form-field appearance="outline">
         <mat-label>Электронная почта</mat-label>
         <input
@@ -14,11 +16,12 @@
           id="email"
           type="text"
           (focus)="resetFormErrors()">
-        <mat-error *ngIf="email?.hasError('required')">
+        <mat-error class="form__error" *ngIf="email?.hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
       </mat-form-field>
 
+      <p class="inputs-wrapper__hint">Введите ваш пароль</p>
       <mat-form-field appearance="outline">
         <mat-label>Пароль</mat-label>
         <input
@@ -27,7 +30,7 @@
           id="password"
           type="password"
           (focus)="resetFormErrors()">
-        <mat-error *ngIf="password?.hasError('required')">
+        <mat-error class="form__error" *ngIf="password?.hasError('required')">
           Поле обязательно для заполнения
         </mat-error>
       </mat-form-field>

@@ -1,22 +1,28 @@
 <div class="container">
 
   <form [formGroup]="bunsForm" (ngSubmit)="startBakery()" class="control-form">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Введите количество булочек</mat-label>
-      <input
-        matInput
-        formControlName="bunsCount"
-        id="bunsCount"
-        type="number">
+    <h2 class="control-form__title">Добро пожаловать, {{ currentUserUsername || 'Гость' }}</h2>
 
-      <mat-error *ngIf="bunsCount?.hasError('required') && bunsCount?.touched">
-        Поле обязательно для заполнения
-      </mat-error>
-      <mat-error *ngIf="bunsCount?.hasError('notPositive') && bunsCount?.touched && !bunsCount?.hasError('required')">
-        Значение должно быть положительным
-      </mat-error>
+    <div class="input-wrapper">
+      <p class="control-form__hint">Введите количество булочек</p>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Введите количество булочек</mat-label>
+        <input
+          matInput
+          formControlName="bunsCount"
+          id="bunsCount"
+          type="number">
 
-    </mat-form-field>
+        <mat-error *ngIf="bunsCount?.hasError('required') && bunsCount?.touched">
+          Поле обязательно для заполнения
+        </mat-error>
+        <mat-error *ngIf="bunsCount?.hasError('notPositive') && bunsCount?.touched && !bunsCount?.hasError('required')">
+          Значение должно быть положительным
+        </mat-error>
+
+      </mat-form-field>
+    </div>
+
     <button mat-flat-button color="primary" class="control-form__button">Запустить пекарню</button>
   </form>
 
@@ -68,7 +74,13 @@
                    [pageSize]="limit"
                    [pageSizeOptions]="[5,10,15,20]"
                    (page)="onPaginateChange($event)"
-                    showFirstLastButtons="true">
+                   showFirstLastButtons="true">
     </mat-paginator>
+
+    <div class="logout-button">
+      <button mat-flat-button color="primary" class="logout-button__button" (click)="logout()">
+        Выйти
+      </button>
+    </div>
   </div>
 </div>
