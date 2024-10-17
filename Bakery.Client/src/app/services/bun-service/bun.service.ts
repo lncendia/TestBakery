@@ -18,13 +18,6 @@ export class BunService {
   public token: string;
 
   /**
-   * URL-адрес API для запуска пекарни.
-   */
-  public get api(): string {
-    return `https://localhost:7217`;
-  }
-
-  /**
    * Конструктор сервиса BunService.
    * Инициализирует зависимости и получает текущий аккаунт пользователя.
    * @param http - HTTP клиент для отправки запросов.
@@ -43,7 +36,7 @@ export class BunService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
-    const fullApi = this.api + '/api/Bun/StartBaking';
+    const fullApi = '/api/Bun/StartBaking';
 
     return this.http.post<Buns>(fullApi, startBakingInputModel, { headers });
   }
@@ -62,7 +55,7 @@ export class BunService {
       .set('Limit', getBunsInputModel.limit.toString())
       .set('Offset', getBunsInputModel.offset?.toString() || '0');
 
-    const fullApi = this.api + '/api/Bun/GetBuns';
+    const fullApi = '/api/Bun/GetBuns';
 
     return this.http.get<Buns>(fullApi, { headers, params });
   }

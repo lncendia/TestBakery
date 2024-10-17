@@ -12,7 +12,8 @@ namespace Bakery.Application.CommandsHandlers.Buns;
 /// </summary>
 /// <param name="repository">Репозиторий булочек.</param>
 /// <param name="factory">Фабрика булочек.</param>
-public class StartBakingCommandHandler(IBunFactory factory, IBunRepository repository) : IRequestHandler<StartBakingCommand, BunsDto>
+public class StartBakingCommandHandler(IBunFactory factory, IBunRepository repository)
+    : IRequestHandler<StartBakingCommand, BunsDto>
 {
     /// <summary>
     /// Обрабатывает команду для начала выпечки булочек.
@@ -40,8 +41,8 @@ public class StartBakingCommandHandler(IBunFactory factory, IBunRepository repos
         // Получаем текущее время
         var now = DateTime.UtcNow;
 
-        // Преобразуем булочки в DTO
-        for (var i = 0; i < buns.Length; i++) mappedBuns[i] = BunMapper.Map(buns[i], now);
+        // Преобразуем булочки в DTO в обратном порядке
+        for (var i = buns.Length - 1; i >= 0; i--) mappedBuns[buns.Length - i - 1] = BunMapper.Map(buns[i], now);
 
         // Возвращаем объект BunsDto, содержащий информацию о выпеченных булочках
         return new BunsDto { Buns = mappedBuns, TotalCount = count };

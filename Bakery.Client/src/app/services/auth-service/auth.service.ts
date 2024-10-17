@@ -9,12 +9,6 @@ import {HttpClient} from '@angular/common/http';
 
 export class AuthService {
 
-  /**
-   * URL для выполнения запроса на вход в систему.
-   */
-  get api(): string {
-    return `https://localhost:7217/api/Account/Token`;
-  }
 
   /**
    * Конструктор сервиса AuthService.
@@ -29,7 +23,7 @@ export class AuthService {
    * @returns {Observable<string>} Observable с объектом string, содержащим access токен.
    */
   public login(account: AccountInputModel): Observable<string> {
-    return this.http.post<string>(this.api, account, {
+    return this.http.post<string>("/api/Account/Token", account, {
       responseType: 'text' as 'json'
     });
   }

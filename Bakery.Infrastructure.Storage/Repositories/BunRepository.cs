@@ -79,16 +79,16 @@ public class BunRepository(ApplicationDbContext context) : IBunRepository
         CancellationToken cancellationToken = default)
     {
         // Создаем базовый запрос для получения булочек, которые еще не проданы
-        var query = context.Set<Bun>().Where(SellPredicate);
+        var query = context.Set<Bun>()
+            .Where(SellPredicate)
+            .OrderByDescending(b => b.BakeTime)
+            .AsQueryable();
 
         // Если указан параметр skip, пропускаем указанное количество элементов
         if (skip.HasValue) query = query.Skip(skip.Value);
 
         // Если указан параметр take, берем указанное количество элементов
         if (take.HasValue) query = query.Take(take.Value);
-
-        // Сортируем булочки по времени выпечки
-        query = query.OrderBy(b => b.BakeTime);
 
         // Возвращаем результат запроса в виде массива
         return await query.ToArrayAsync(cancellationToken);

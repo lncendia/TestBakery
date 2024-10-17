@@ -16,7 +16,7 @@ namespace Bakery.Infrastructure.Web.Buns.Controllers;
 /// <param name="mediator">Медиатор.</param>
 /// <param name="mapper">Маппер.</param>
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Baker")]
 public class BunController(ISender mediator, IMapper mapper) : ControllerBase
 {

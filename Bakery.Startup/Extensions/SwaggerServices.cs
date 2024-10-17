@@ -19,6 +19,9 @@ public static class SwaggerServices
             // Настраиваем документацию Swagger
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Bakery API", Version = "v1" });
 
+            // Добавляем префикс "api" всем эндпоинтам
+            options.DocumentFilter<PathPrefixInsertDocumentFilter>("api");
+            
             // Поддержка необязательных ссылочных типов
             options.SupportNonNullableReferenceTypes();
 

@@ -12,7 +12,7 @@ namespace Bakery.Infrastructure.Web.Account.Controllers;
 /// <param name="mediator">Медиатор.</param>
 /// <param name="mapper">Маппер.</param>
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class AccountController(ISender mediator, IMapper mapper) : ControllerBase
 {
     /// <summary>

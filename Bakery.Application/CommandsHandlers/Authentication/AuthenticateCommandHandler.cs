@@ -53,11 +53,13 @@ public class AuthenticateCommandHandler(
             throw new InvalidPasswordException();
         }
 
-        // Cбрасываем счетчик неудачных попыток входа
+        // Сбрасываем счетчик неудачных попыток входа
         await userManager.ResetAccessFailedCountAsync(user);
 
+        // Создаем коллекцию утверждений о пользователе
         var principal = await factory.CreateAsync(user);
 
+        // Генерируем JWT на основании утверждений
         return provider.GenerateAccess(principal.Claims);
     }
 }
