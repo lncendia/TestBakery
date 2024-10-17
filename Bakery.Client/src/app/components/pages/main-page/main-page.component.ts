@@ -219,7 +219,7 @@ export class MainPageComponent implements OnInit {
    *                     Формат: "дни.часы:минуты:секунды.миллисекунды" или "часы:минуты:секунды.миллисекунды".
    * @returns Строку в формате "часы:минуты".
    */
-  convertTimeStringToTimeString(timeString: string): string {
+  public parseTime(timeString: string): string {
     let parts = timeString.split('.');
     let days = 0;
     let hours = 0;
